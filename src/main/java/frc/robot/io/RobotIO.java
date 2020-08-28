@@ -1,5 +1,7 @@
 package frc.robot.io;
 
+import javax.inject.Singleton;
+
 /**
  * This interface defines the input data and output operations that can be done by every type of system this code can run on.
  * This includes competition robots, practice robots (if they differ), simulation, and testing environments.
@@ -9,6 +11,9 @@ package frc.robot.io;
  *
  * There are many ways to create such an interface, this is just a layout that makes the most sense to me:
  */
+@Singleton //This annotation is important.  It tells Guice that we only ever want one instance of any subclass of RobotIO.
+           //If we don't have this annotation here, when we go to inject instances of RobotIO, it will create new instances.
+           //Putting the annotation here makes sure that Guice reuses the one instance we have.
 public interface RobotIO {
     /**
      * This function is called every loop cycle, and is responsible for reading data from all attached robot sensors,

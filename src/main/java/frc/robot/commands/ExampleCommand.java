@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import com.google.inject.Inject;
 import frc.robot.Robot;
 import frc.robot.io.RobotIO;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -19,7 +20,8 @@ public class ExampleCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ExampleSubsystem m_subsystem;
 
-  private RobotIO io = Robot.getRobotIO();
+  //private RobotIO io = Robot.getRobotIO();
+  @Inject private RobotIO io;
 
   /**
    * Creates a new ExampleCommand.

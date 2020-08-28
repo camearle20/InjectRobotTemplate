@@ -52,6 +52,9 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
+    //Here I add Guice, a dependency injection library, as a single dependency to my Gradle project.
+    implementation group: 'com.google.inject', name: 'guice', version: '4.2.3'
+
     testImplementation 'junit:junit:4.12'
 
     // Enable simulation gui support. Must check the box in vscode to enable support

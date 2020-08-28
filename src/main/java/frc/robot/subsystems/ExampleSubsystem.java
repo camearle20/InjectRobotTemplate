@@ -7,12 +7,14 @@
 
 package frc.robot.subsystems;
 
+import com.google.inject.Inject;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.io.RobotIO;
 
 public class ExampleSubsystem extends SubsystemBase {
-  private RobotIO io = Robot.getRobotIO(); //Obtain an instance of RobotIO
+  //private RobotIO io = Robot.getRobotIO(); //Obtain an instance of RobotIO
+  @Inject private RobotIO io; //This is the new way to obtain the instance of RobotIO
 
   private static final double WHEEL_RADIUS = 2.0;  //4 inch diameter wheel as an example
 

@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -25,22 +27,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  //Here I'm just creating an instance of CompetitionRobotIO.  In reality, this could be done
-  //in the robotInit method, and we could choose to instantiate a different implementation of RobotIO
-  //depending on various conditions (if we detect we are in a simulation environment, etc.)
-  //This decision process can actually be automated by something called dependency injection (DI)
-  //which I will provide an example implementation of in a separate branch
-  private static RobotIO io = new CompetitionRobotIO();
+  //We have removed all of the code required to create and access an instance of RobotIO.  Instead, we can simply do:
+  @Inject private RobotIO io; //This tells Guice to look for an instance of RobotIO (creating one if it doesn't exist) and then store (inject) it into the variable.
+                              //We can be sure that only one instance of RobotIO will ever exist, since it was annotated with "@Singleton".  Guice manages all this for us.
 
-  //private static RobotIO io = new SimulatedRobotIO(); //This is the other possible code path.  Since we use an interface,
-                                                        //this is perfectly valid and all code depending on RobotIO would still work.
-
-  //Here I provide a getter for our instance of RobotIO.  There should only ever be one instance of this class at any time.
-  //In the DI example, we will not need this as the "injector" will manage this for us and make it very easy to obtain the instance
-  //anywhere it is required
-  public static RobotIO getRobotIO() {
-    return io;
-  }
+  //Everything else remains exactly the same.  "io" is a real instance of RobotIO that was created for us.
 
   /**
    * This function is run when the robot is first started up and should be used for any

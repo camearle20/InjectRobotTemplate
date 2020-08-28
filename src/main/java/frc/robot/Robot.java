@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.io.CompetitionRobotIO;
+import frc.robot.io.RobotIO;
+import frc.robot.io.SimulatedRobotIO;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +25,23 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  //Here I'm just creating an instance of CompetitionRobotIO.  In reality, this could be done
+  //in the robotInit method, and we could choose to instantiate a different implementation of RobotIO
+  //depending on various conditions (if we detect we are in a simulation environment, etc.)
+  //This decision process can actually be automated by something called dependency injection (DI)
+  //which I will provide an example implementation of in a separate branch
+  private static RobotIO io = new CompetitionRobotIO();
+
+  //private static RobotIO io = new SimulatedRobotIO(); //This is the other possible code path.  Since we use an interface,
+                                                        //this is perfectly valid and all code depending on RobotIO would still work.
+
+  //Here I provide a getter for our instance of RobotIO.  There should only ever be one instance of this class at any time.
+  //In the DI example, we will not need this as the "injector" will manage this for us and make it very easy to obtain the instance
+  //anywhere it is required
+  public static RobotIO getRobotIO() {
+    return io;
+  }
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -31,6 +51,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    io.setup(); //Call the RobotIO setup function here
   }
 
   /**
@@ -42,6 +63,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    //Call the RobotIO update method.  I do this BEFORE the scheduler so that when our Subsystems and Commands run,
+    //they always have fresh, up to date sensor data.  If we called this after the scheduler,
+    //our loop cycle would always be one cycle behind in terms of control.
+    io.update();
+
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

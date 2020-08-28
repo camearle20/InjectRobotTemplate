@@ -42,6 +42,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //This would be used just like any other command based program.  I'm excluding button bindings for brevity,
+    //but there is no difference in this model.
   }
 
 

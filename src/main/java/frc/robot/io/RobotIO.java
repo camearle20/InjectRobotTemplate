@@ -10,10 +10,6 @@ package frc.robot.io;
  * There are many ways to create such an interface, this is just a layout that makes the most sense to me:
  */
 public interface RobotIO {
-    //We'll define a bunch of variables first where we will store various data read from sensors
-    //We'll also store the timestamp (FPGA timestamp) here, as it is very important when doing advanced control
-    //to have a common timestamp for all controllers, profilers, etc. each loop cycle (as opposed to calling getFPGATimestamp multiple times each cycle)
-
     /**
      * This function is called every loop cycle, and is responsible for reading data from all attached robot sensors,
      * as well as reading the timestamp.  By doing this once each cycle in a single place (as opposed to spread around
